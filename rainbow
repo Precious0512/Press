@@ -1,0 +1,25 @@
+# PROGCON Week 09 - Day 02 - Exercise 3
+# Guess the colors of the rainbow (list exercise)
+
+rainbow = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
+found = [False] * len(rainbow)
+count = 0
+
+print("Guess the 7 colors of the rainbow!")
+
+while count < len(rainbow):
+    guess = input("Guess a color: ").strip().lower()
+    matched = False
+
+    for i in range(len(rainbow)):
+        if rainbow[i] == guess and not found[i]:
+            found[i] = True
+            count += 1
+            matched = True
+
+    if matched:
+        print("Correct!")
+    else:
+        print("Try again.")
+
+print("You found all 7 colors of the rainbow!")

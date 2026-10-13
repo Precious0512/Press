@@ -1,0 +1,45 @@
+# Name: Precious Arellano
+# Section: IT-261 (PROGCON)
+# Exercise: Week 11 Day 02 Flowcharting Exercise #1 - Compute Average
+#
+# The program asks the user to enter up to 10 numbers.
+# Entering 0 stops the input early (the 0 is not counted).
+# The average is computed by a separate function called from main().
+
+MAX_NUMBERS = 10
+
+
+def compute_average(numbers):
+    """Return the average of a list of numbers (0 if the list is empty)."""
+    if len(numbers) == 0:
+        return 0
+    total = 0
+    for value in numbers:
+        total = total + value
+    return total / len(numbers)
+
+
+def main():
+    numbers = []
+    print("Enter up to 10 numbers. Enter 0 to stop and compute the average.")
+
+    while len(numbers) < MAX_NUMBERS:
+        try:
+            value = float(input(f"Number {len(numbers) + 1}: "))
+        except ValueError:
+            print("Please enter a valid number.")
+            continue
+
+        if value == 0:
+            break
+        numbers.append(value)
+
+    if len(numbers) == 0:
+        print("No numbers were entered, so there is no average.")
+    else:
+        average = compute_average(numbers)
+        print(f"Numbers entered: {len(numbers)}")
+        print(f"Average: {average:.2f}")
+
+
+main()

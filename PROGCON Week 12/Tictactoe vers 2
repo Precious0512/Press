@@ -1,0 +1,121 @@
+# Tic-Tac-Toe vers 2 (Final Version)
+# Name: Precious Arellano | IT-261
+# One player (O) against the computer (X).
+# random decides who starts. Win check covers all rows, columns and diagonals.
+
+import random
+
+board = ["1", "2", "3",
+         "4", "5", "6",
+         "7", "8", "9"]
+
+USER = "O"
+COMPUTER = "X"
+
+
+def show_board():
+    print()
+    print(" " + board[0] + " | " + board[1] + " | " + board[2])
+    print("---+---+---")
+    print(" " + board[3] + " | " + board[4] + " | " + board[5])
+    print("---+---+---")
+    print(" " + board[6] + " | " + board[7] + " | " + board[8])
+    print()
+
+
+def is_free(position):
+    return board[position] != "X" and board[position] != "O"
+
+
+def check_winner(mark):
+    # rows
+    for r in range(0, 9, 3):
+        if board[r] == mark and board[r + 1] == mark and board[r + 2] == mark:
+            return True
+    # columns
+    for c in range(3):
+        if board[c] == mark and board[c + 3] == mark and board[c + 6] == mark:
+            return True
+    # diagonals
+    if board[0] == mark and board[4] == mark and board[8] == mark:
+        return True
+    if board[2] == mark and board[4] == mark and board[6] == mark:
+        return True
+    return False
+
+
+def board_full():
+    for i in range(9):
+        if is_free(i):
+            return False
+    return True
+
+
+def user_move():
+    while True:
+        choice = input("Your turn (O). Choose a box (1-9): ")
+        if not choice.isdigit():
+            print("Please enter a number from 1 to 9.")
+            continue
+        position = int(choice) - 1
+        if position < 0 or position > 8:
+            print("Please enter a number from 1 to 9.")
+        elif not is_free(position):
+            print("That box is already taken. Try again.")
+        else:
+            board[position] = USER
+            return
+
+
+def computer_move():
+    while True:
+        position = random.randint(0, 8)
+        if is_free(position):
+            board[position] = COMPUTER
+            print("Computer (X) chose box " + str(position + 1))
+            return
+
+
+def main():
+    print("=== TIC-TAC-TOE ===")
+    print("You are O. The computer is X.")
+
+    # random function decides who starts (0 = user, 1 = computer)
+    if random.randint(0, 1) == 0:
+        turn = USER
+        print("You start first!")
+    else:
+        turn = COMPUTER
+        print("The computer starts first!")
+
+    show_board()
+
+    while True:
+        if turn == USER:
+            user_move()
+        else:
+            computer_move()
+
+        show_board()
+
+        if check_winner(turn):
+            if turn == USER:
+                print("Congratulations! You (O) win!")
+            else:
+                print("The computer (X) wins!")
+            break
+
+        if board_full():
+            print("It's a draw!")
+            break
+
+        # switch turns
+        if turn == USER:
+            turn = COMPUTER
+        else:
+            turn = USER
+
+    print("Game over. Thanks for playing!")
+
+
+main()
